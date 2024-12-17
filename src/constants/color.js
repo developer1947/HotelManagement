@@ -1,0 +1,9 @@
+export const BACKGROUND = '#FFFFFF';
+export const ORANGE = 'orange';
+export const WHITE = '#FFFFFF';
+export const BLACK = '#000000';
+export const Button_BLUE = '#02002F';
+export const Border_Color = '#3F3F3F';
+export const DEEPWHITE = '#F1F1F1';
+export const GRAY = '#808080';
+export const BUTTON_RED = '#A80C12';
