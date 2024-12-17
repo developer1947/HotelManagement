@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { BLACK, WHITE } from '../constants/color';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
+import {BLACK, WHITE} from '../constants/color';
 
-const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) => {
+const DatePicker = ({
+  show,
+  onClose,
+  onDateSelect,
+  minimumDate = new Date(),
+}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = [
-    { label: 'January', value: 0 },
-    { label: 'February', value: 1 },
-    { label: 'March', value: 2 },
-    { label: 'April', value: 3 },
-    { label: 'May', value: 4 },
-    { label: 'June', value: 5 },
-    { label: 'July', value: 6 },
-    { label: 'August', value: 7 },
-    { label: 'September', value: 8 },
-    { label: 'October', value: 9 },
-    { label: 'November', value: 10 },
-    { label: 'December', value: 11 },
+    {label: 'January', value: 0},
+    {label: 'February', value: 1},
+    {label: 'March', value: 2},
+    {label: 'April', value: 3},
+    {label: 'May', value: 4},
+    {label: 'June', value: 5},
+    {label: 'July', value: 6},
+    {label: 'August', value: 7},
+    {label: 'September', value: 8},
+    {label: 'October', value: 9},
+    {label: 'November', value: 10},
+    {label: 'December', value: 11},
   ];
 
-  const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+  const getDaysInMonth = (year, month) =>
+    new Date(year, month + 1, 0).getDate();
 
-  const changeMonth = (direction) => {
+  const changeMonth = direction => {
     let newMonth = selectedDate.getMonth() + direction;
     let newYear = selectedDate.getFullYear();
     if (newMonth < 0) {
@@ -38,23 +51,22 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
     setSelectedDate(new Date(newYear, newMonth, 1));
   };
 
-  const handleDateSelect = (day) => {
-    const newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day);
+  const handleDateSelect = day => {
+    const newDate = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      day,
+    );
 
-    // Check if the selected date is before the minimum date
     if (newDate < new Date(minimumDate.setHours(0, 0, 0, 0))) return;
 
-    // Handle check-in and check-out logic
     if (!checkInDate || (checkInDate && checkOutDate)) {
-      // Set check-in date and reset check-out date
       setCheckInDate(newDate);
       setCheckOutDate(null);
     } else if (checkInDate && !checkOutDate) {
-      // Set check-out date if it's after the check-in date
       if (newDate > checkInDate) {
         setCheckOutDate(newDate);
       } else {
-        // Reset check-in date if the selected date is before or equal to check-in
         setCheckInDate(newDate);
       }
     }
@@ -71,8 +83,15 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
   };
 
   const renderDaysGrid = () => {
-    const startDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1).getDay();
-    const daysInMonth = getDaysInMonth(selectedDate.getFullYear(), selectedDate.getMonth());
+    const startDay = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      1,
+    ).getDay();
+    const daysInMonth = getDaysInMonth(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+    );
     const totalCells = startDay + daysInMonth;
 
     const daysArray = [];
@@ -81,11 +100,19 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
         daysArray.push(<View key={i} style={styles.dayCell} />);
       } else {
         const day = i - startDay + 1;
-        const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), day);
+        const currentDate = new Date(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          day,
+        );
 
         // Determine the styling for each date
-        const isCheckIn = checkInDate && currentDate.toDateString() === checkInDate.toDateString();
-        const isCheckOut = checkOutDate && currentDate.toDateString() === checkOutDate.toDateString();
+        const isCheckIn =
+          checkInDate &&
+          currentDate.toDateString() === checkInDate.toDateString();
+        const isCheckOut =
+          checkOutDate &&
+          currentDate.toDateString() === checkOutDate.toDateString();
         const isInRange =
           checkInDate &&
           checkOutDate &&
@@ -101,10 +128,9 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
               isCheckOut && styles.checkOutDay,
               isInRange && styles.inRangeDay,
             ]}
-            onPress={() => handleDateSelect(day)}
-          >
+            onPress={() => handleDateSelect(day)}>
             <Text style={styles.dayText}>{day}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>,
         );
       }
     }
@@ -116,13 +142,18 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => changeMonth(-1)} style={styles.arrow}>
+            <TouchableOpacity
+              onPress={() => changeMonth(-1)}
+              style={styles.arrow}>
               <Text style={styles.arrowText}>{'<'}</Text>
             </TouchableOpacity>
             <Text style={styles.monthText}>
-              {months[selectedDate.getMonth()].label} {selectedDate.getFullYear()}
+              {months[selectedDate.getMonth()].label}{' '}
+              {selectedDate.getFullYear()}
             </Text>
-            <TouchableOpacity onPress={() => changeMonth(1)} style={styles.arrow}>
+            <TouchableOpacity
+              onPress={() => changeMonth(1)}
+              style={styles.arrow}>
               <Text style={styles.arrowText}>{'>'}</Text>
             </TouchableOpacity>
           </View>
@@ -137,18 +168,61 @@ const DatePicker = ({ show, onClose, onDateSelect, minimumDate = new Date() }) =
 
           <View style={styles.daysGrid}>{renderDaysGrid()}</View>
 
-          
-          <View style={{height:"12%",width:'100%',flexDirection:'row',alignItems:'center'}}>
-           <View style={{height:"90%",width:'50%',justifyContent:'center',alignItems:'center'}}>
-               <TouchableOpacity onPress={onClose} style={{height:'90%',width:'80%',backgroundColor:'lightgrey',borderRadius:10,justifyContent:'center',alignItems:'center'}}>
-                  <Text allowFontScaling={false} style={{fontSize:14,color:BLACK,fontWeight:'900'}}>Cancel</Text>
-               </TouchableOpacity>
-           </View>
-           <View style={{height:"90%",width:'50%',justifyContent:'center',alignItems:'center'}}>
-                        <TouchableOpacity style={{height:'90%',width:'80%',backgroundColor:'#4CAF50',borderRadius:10,justifyContent:'center',alignItems:'center'}} onPress={handleDone}>
-            <Text allowFontScaling={false} style={{fontSize:14,color:WHITE,fontWeight:'600'}}>✓  Set Date</Text>
-          </TouchableOpacity>
-           </View>
+          <View
+            style={{
+              height: '12%',
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                height: '90%',
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={onClose}
+                style={{
+                  height: '90%',
+                  width: '80%',
+                  backgroundColor: 'lightgrey',
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  allowFontScaling={false}
+                  style={{fontSize: 14, color: BLACK, fontWeight: '900'}}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                height: '90%',
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                style={{
+                  height: '90%',
+                  width: '80%',
+                  backgroundColor: '#4CAF50',
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={handleDone}>
+                <Text
+                  allowFontScaling={false}
+                  style={{fontSize: 14, color: WHITE, fontWeight: '600'}}>
+                  ✓ Set Date
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -236,15 +310,14 @@ const styles = StyleSheet.create({
   doneText: {
     color: '#FFF',
     fontSize: 16,
-    fontWeight:'900'
-
+    fontWeight: '900',
   },
   disabledDayText: {
-    color: 'lightgrey', 
+    color: 'lightgrey',
   },
-  checkInDay: { backgroundColor: 'green', borderRadius: 5 },
-  checkOutDay: { backgroundColor: 'green', borderRadius: 5 },
-  inRangeDay: { backgroundColor: '#ECFDF5',  },
+  checkInDay: {backgroundColor: 'green', borderRadius: 5},
+  checkOutDay: {backgroundColor: 'green', borderRadius: 5},
+  inRangeDay: {backgroundColor: '#ECFDF5'},
 });
 
 export default DatePicker;

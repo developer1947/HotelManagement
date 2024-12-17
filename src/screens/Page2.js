@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   blackLine: {
     position: 'absolute',
-    left: 30, // Fixed at the starting point
+    left: 30, 
     height: 20,
     width: 2,
     backgroundColor: 'black',
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     position: 'absolute',
-    left: 15, // Align with the black line
+    left: 15,
     bottom: 10,
   },
   label: {
