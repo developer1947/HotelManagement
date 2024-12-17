@@ -99,17 +99,17 @@ const Page2 = ({navigation}) => {
                   <View style={styles.sliderContainer}>
                     <Slider
                       style={styles.slider}
-                      minimumValue={999} // Min price starts at 999
-                      maximumValue={10000} // Adjust maximum price as needed
-                      minimumTrackTintColor="#FF0000" // Color BEFORE the thumb (left side)
-                      maximumTrackTintColor="#F5A9A9" // Color AFTER the thumb (right side)
-                      thumbTintColor="#FF0000" // Red thumb (circle)
+                      minimumValue={999} 
+                      maximumValue={10000}
+                      minimumTrackTintColor="#FF0000" 
+                      maximumTrackTintColor="#F5A9A9"
+                      thumbTintColor="#FF0000" 
                       value={price}
-                      onValueChange={value => setPrice(Math.round(value))} // Round to nearest integer
+                      onValueChange={value => setPrice(Math.round(value))}
                     />
                   </View>
 
-                  {/* Fixed Min Price Label */}
+                  
                   <View style={styles.labelContainer}>
                     <Text style={styles.label}>Min Price</Text>
                   </View>
